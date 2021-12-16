@@ -584,12 +584,6 @@ contract GOT is Context, IERC20 {
     uint256 private _totalSupply = 100000000 * 10 ** 18;
     
     address public ownerAddres = address(0xe4082dDf7Bb0b831F1de3261825B4dfCe9d6892c); //5%
-    address public devAddress = address(0x54FE646523Add7a55AF15a08F80cC4484B0Ff874);  //10%
-    address public gameAddress = address(0x7144Fe59602f60a40578c5e0EB22e7d1B6342c36); //50%
-    address public ecoAddress = address(0x8b1D882C890127243cAAd222D83d1a6d3AA477f7); //10%
-    address public opAddress = address(0x5EB7b380f2D0a9B91db7bDa4c5366B23ca4B8E4d); //5%
-    address public guildAddress = address(0x0b49eD8A0fd51B203fad40283a46B9b498c6A2EF); //15%
-    address public investAddress = address(0xf606296062C653E373F3Ec425f167b794C927033);//5%
     address public USDT = address(0x55d398326f99059fF775485246999027B3197955);
 
 
@@ -602,12 +596,6 @@ contract GOT is Context, IERC20 {
     
     constructor () public {
         _balances[ownerAddres] = _totalSupply * 5 / 100;
-        _balances[devAddress] = _totalSupply * 10 / 100;
-        _balances[gameAddress] = _totalSupply * 50 / 100;
-        _balances[ecoAddress] = _totalSupply  * 10 / 100;
-        _balances[opAddress] = _totalSupply * 5 / 100;
-        _balances[guildAddress] = _totalSupply  * 15 / 100;
-        _balances[investAddress] = _totalSupply  * 5 / 100;
         IPancakeRouter02 _uniswapV2Router = IPancakeRouter02(0x10ED43C718714eb63d5aA57B78B54704E256024E);
         // Create a uniswap pair for this new token
         uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
@@ -616,12 +604,6 @@ contract GOT is Context, IERC20 {
         // set the rest of the contract variables
         uniswapV2Router = _uniswapV2Router;
         emit Transfer(address(0),ownerAddres, _totalSupply * 5 / 100);
-        emit Transfer(address(0),devAddress, _totalSupply * 10 / 100);
-        emit Transfer(address(0),gameAddress, _totalSupply * 50 / 100);
-        emit Transfer(address(0),ecoAddress, _totalSupply  * 10 / 100);
-        emit Transfer(address(0),opAddress, _totalSupply * 5 / 100);
-        emit Transfer(address(0),guildAddress, _totalSupply  * 15 / 100);
-        emit Transfer(address(0),investAddress, _totalSupply  * 5 / 100);
     }
     
     function name() public view returns (string memory) {
@@ -788,11 +770,7 @@ contract GOT is Context, IERC20 {
         
         _balances[from] = _balances[from].sub(value);
         _balances[to] = _balances[to].add(amount);
-        _balances[devAddress] = _balances[devAddress].add(devAmount);
         emit Transfer(from, to, amount);
-        if (devAmount > 0) {
-            emit Transfer(from, devAddress, devAmount);
-        }
     }
 
 }
