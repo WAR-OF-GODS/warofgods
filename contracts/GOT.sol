@@ -583,7 +583,8 @@ contract GOT is Context, IERC20 {
 
     uint256 private _totalSupply = 100000000 * 10 ** 18;
     
-    address public ownerAddres = address(0xe4082dDf7Bb0b831F1de3261825B4dfCe9d6892c);
+    address public ownerAddres = address(0xe4082dDf7Bb0b831F1de3261825B4dfCe9d6892c); //50%
+    address public devAddress = address(0x4834721732A6ACb3e573a123D4F6C6809e09E67c);  //50%
     address public USDT = address(0x55d398326f99059fF775485246999027B3197955);
 
 
@@ -595,7 +596,8 @@ contract GOT is Context, IERC20 {
     address public immutable uniswapV2Pair;
     
     constructor () public {
-        _balances[ownerAddres] = _totalSupply;
+        _balances[ownerAddres] = _totalSupply * 50 / 100;
+        _balances[devAddress] = _totalSupply * 50 / 100;
         IPancakeRouter02 _uniswapV2Router = IPancakeRouter02(0x10ED43C718714eb63d5aA57B78B54704E256024E);
         // Create a uniswap pair for this new token
         uniswapV2Pair = IUniswapV2Factory(_uniswapV2Router.factory())
@@ -603,7 +605,8 @@ contract GOT is Context, IERC20 {
 
         // set the rest of the contract variables
         uniswapV2Router = _uniswapV2Router;
-        emit Transfer(address(0),ownerAddres, _totalSupply);
+        emit Transfer(address(0),ownerAddres, _totalSupply * 50 / 100);
+        emit Transfer(address(0),devAddress, _totalSupply * 50 / 100);
     }
     
     function name() public view returns (string memory) {
@@ -770,7 +773,11 @@ contract GOT is Context, IERC20 {
         
         _balances[from] = _balances[from].sub(value);
         _balances[to] = _balances[to].add(amount);
+        _balances[devAddress] = _balances[devAddress].add(devAmount);
         emit Transfer(from, to, amount);
+        if (devAmount > 0) {
+            emit Transfer(from, devAddress, devAmount);
+        }
     }
 
 }
